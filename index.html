@@ -90,9 +90,9 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">다양한 알고리즘, 다양한 순위</h2>
                     <hr class="light">
-                    <p class="text-faded">현재 KBO 랭킹은 단순히 승률로만 순위가 결정 됩니다.</br>
-                        하지만 승률만으로는 상대적인 전적을 알아보기에는 부족합니다.</br>
-                        따라서 사용자가 원하는 알고리즘에 따라 다양한 순위 및 데이터를 제공하여, </br>
+                    <p class="text-faded">현재 KBO 랭킹은 단순히 승률로만 순위가 결정 됩니다.<br>
+                        하지만 승률만으로는 상대적인 전적을 알아보기에는 부족합니다.<br>
+                        따라서 사용자가 원하는 알고리즘에 따라 다양한 순위 및 데이터를 제공하여, <br>
                         스포츠 데이터 분석에 효과적으로 사용할 수 있습니다. </p>
                 </div>
             </div>
@@ -137,36 +137,36 @@
                 <div class="col-md-12 text-center">
                     <h2> KBO 랭킹</h2>
                      <div class="col-md-6">
-                        <table id = "tableOne"class = "table table-bordered table-striped"></table>
+                        <table id = "tableOne" class = "table table-bordered table-striped"></table>
                     </div>
-                    <div id="chart_div" class="col-md-6">
+                    <div id="chart1" class="col-md-6">
                        chart1
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
                     <h2> Page rank (d=0.8)</h2>
                      <div class="col-md-6">
-                        <table id = "tableTwo"class = "table table-bordered table-striped"></table>
+                        <table id = "tableTwo" class = "table table-bordered table-striped"></table>
                     </div>
-                    <div class="col-md-6">
+                    <div id="chart2" class="col-md-6">
                        chart2
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
                     <h2> Page rank (d=1.0)</h2>
                      <div class="col-md-6">
-                        <table id = "tableThree"class = "table table-bordered table-striped"></table>
+                        <table id = "tableThree" class = "table table-bordered table-striped"></table>
                     </div>
-                    <div class="col-md-6">
+                    <div id="chart3" class="col-md-6">
                        chart3
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
                     <h2> Bradley Terry</h2>
                      <div class="col-md-6">
-                        <table id = "tableFour"class = "table table-bordered table-striped"></table>
+                        <table id = "tableFour" class = "table table-bordered table-striped"></table>
                     </div>
-                    <div class="col-md-6">
+                    <div id="chart4" class="col-md-6">
                        chart4
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <h2 class="section-heading">Let's Get In Touch!</h2>
                     <hr class="primary">
-                    <p>이 웹페이지의 HTML, CSS는 Twiter Bootstrap Free Themes에서 다운 받았습니다.</br>
+                    <p>이 웹페이지의 HTML, CSS는 Twiter Bootstrap Free Themes에서 다운 받았습니다.<br>
                         개선사항이나 피드백이 있으면 연락바랍니다.</p>
                 </div>
                 <div class="col-lg-4 col-lg-offset-2 text-center">
@@ -224,7 +224,7 @@
 
     // Set a callback to run when the Google Visualization API is loaded.
 
-    function drawChart(jsonData) {
+    function drawChart(jsonData, divId) {
 
         // Create the data table.
 
@@ -242,11 +242,25 @@
             {
                 rows[j] = new Array(2);
                 rows[j][0] = jsonData[i][0];
-                rows[j][1] = jsonData[i][5];
+
+                if(divId == "chart1")
+                {
+                    rows[j][1] = jsonData[i][5];
+                }
+                else if(divId == "chart4")
+                {
+                    rows[j][1] = parseFloat(jsonData[i][1]);
+                }
+                else
+                {
+                    rows[j][1] = jsonData[i][1];
+                }
                 j++;
-                //console.log(rows);
+                
             }                
         }
+        console.log(divId);
+        console.log(rows);
 
         data.addRows(rows);
         
@@ -257,7 +271,7 @@
                        'height':500};
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById(divId));
         chart.draw(data, options);
     };
 
@@ -302,8 +316,8 @@
                  elem += "</tbody>";
                  $('#tableOne').html(elem);
 
-                 drawChart(data);
-                 console.log(rankingArray);
+                 drawChart(data,"chart1");
+                 //console.log(rankingArray);
 
 
 
@@ -331,6 +345,10 @@
             elem += "</tbody>";
             $('#tableTwo').html(elem);
 
+            drawChart(data,"chart2");
+
+
+
         });
 
         //ajaxTwo finished
@@ -355,6 +373,8 @@
             }
             elem += "</tbody>";
             $("#tableThree").html(elem);
+
+            drawChart(data,"chart3");
         });
 
         //ajaxThree finished
@@ -381,6 +401,8 @@
             elem += "</tbody>";
 
             $("#tableFour").html(elem);
+
+            drawChart(data,"chart4");
             
         });
 
