@@ -342,10 +342,11 @@
         });
 
         ajaxThree.done(function( data ) {
+
+            // console.log(data);
             var elem = "<thead><tr><th>순위</th><th>팀명</th><th>PR</th><th>순위 변동</th></tr></thead><tbody>";
             for(var i in data){
               var item = data[i];
-
               {
                 elem += "<tr><td>"+ (parseInt(i)+1) + "</td><td>" + item[0] +"</td><td>"+ item[1]+ 
                 "</td><td>"+ (rankingArray.indexOf(item[0]) - (parseInt(i)+1) )+"</td></tr>";
@@ -366,9 +367,21 @@
 
         ajaxFour.done(function( data ) {
 
-            //console.log(data);
+            // console.log(data);
 
-            $("#tableFour").html(data);
+            var elem = "<thead><tr><th>순위</th><th>팀명</th><th>PR</th><th>순위 변동</th></tr></thead><tbody>";
+            for(var i in data){
+              var item = data[i];
+              {
+                elem += "<tr><td>"+ (parseInt(i)+1) + "</td><td>" + item[0] +"</td><td>"+ item[1]+ 
+                "</td><td>"+ (rankingArray.indexOf(item[0]) - (parseInt(i)+1) )+"</td></tr>";
+              }
+
+            }
+            elem += "</tbody>";
+
+            $("#tableFour").html(elem);
+            
         });
 
         //ajaxFour finished

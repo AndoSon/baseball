@@ -1,5 +1,7 @@
 <?php
 
+	header('Content-Type: application/json; charset=utf-8');
+
     $name = $_POST['name'];
     $year = substr_replace($name, "01-01", 5, 5); 
     $team_num = substr($name, 0, 4);
@@ -45,15 +47,15 @@
 		
 	if($row[0] == 1)
 	{
-		$row[0] = "Samsung";
+		$row[0] = "삼성";
 	}
 	if($row[0] == 2)
 	{
-		$row[0] = "Nexen";
+		$row[0] = "넥센";
 	}
 	if($row[0] == 3)
 	{
-		$row[0] = "Hanwha";
+		$row[0] = "한화";
 	}
 	if($row[0] == 4)
 	{
@@ -65,11 +67,11 @@
 	}
 	if($row[0] == 6)
 	{
-		$row[0] = "Doosan";
+		$row[0] = "두산";
 	}
 	if($row[0] == 7)
 	{
-		$row[0] = "Lotte";
+		$row[0] = "롯데";
 	}
 	if($row[0] == 8)
 	{
@@ -85,15 +87,15 @@
 	}
 	if($row[1] == 1)
 	{
-		$row[1] = "Samsung";
+		$row[1] = "삼성";
 	}
 	if($row[1] == 2)
 	{
-		$row[1] = "Nexen";
+		$row[1] = "넥센";
 	}
 	if($row[1] == 3)
 	{
-		$row[1] = "Hanwha";
+		$row[1] = "한화";
 	}
 	if($row[1] == 4)
 	{
@@ -105,11 +107,11 @@
 	}
 	if($row[1] == 6)
 	{
-		$row[1] = "Doosan";
+		$row[1] = "두산";
 	}
 	if($row[1] == 7)
 	{
-		$row[1] = "Lotte";
+		$row[1] = "롯데";
 	}
 	if($row[1] == 8)
 	{
@@ -132,6 +134,35 @@
 
 	exec("Rscript ./script.R", $error);
 
+
+	$f = fopen("save.csv", "r");
+
+	$row = 0;
+
+	$array = array(
+    array("팀명","Ability")
+);
+	$check = 1;
+
+	while (($data = fgetcsv($f)) !== false) {
+		$num = count($data);
+		if($check)
+		{
+			$check = 0;
+			continue;
+		}
+        for ($c=0; $c < $num; $c++) {
+        	$a[$row][$c] = $data[$c];
+            //echo $data[$c] . "<br />\n";
+        }
+        $row++;
+
+	}	
+	fclose($f);
+	echo json_encode($a);
+
+
+/*
 	//reading save.csv and 
 	echo "<table>\n";
 	$f = fopen("save.csv", "r");
@@ -144,5 +175,6 @@
 	}	
 	fclose($f);
 	echo "</table>";
-	
+*/
+
 ?>
